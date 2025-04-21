@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main-container">        
+        <div class="container">
+            <div class="illustration">
+                <!-- Illustration Image -->
+            </div>
+            <div class="form-section">
+                <h2>Sign up</h2>
+                <form id="signupForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" />
+                        <div class="error" id="nameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" />
+                        <div class="error" id="emailError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" />
+                        <div class="error" id="passwordError"></div>
+                    </div>
+                    <button class="btn" type="submit">Sign up</button>
+                </form>
+                <div class="footer">
+                    Already have an account? <a href="login.html">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let isValid = true;
+
+            // Clear all previous errors
+            nameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
+
+            // Name Validation
+            if (nameInput.value.trim() === '') {
+                nameError.textContent = 'Name is required.';
+                isValid = false;
+            }
+
+            // Email Validation
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (emailInput.value.trim() === '') {
+                emailError.textContent = 'Email is required.';
+                isValid = false;
+            } else if (!emailPattern.test(emailInput.value.trim())) {
+                emailError.textContent = 'Enter a valid email address.';
+                isValid = false;
+            }
+
+            // Password Validation
+            const passwordValue = passwordInput.value;
+            const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (passwordValue === '') {
+                passwordError.textContent = 'Password is required.';
+                isValid = false;
+            } else if (!passwordPattern.test(passwordValue)) {
+                passwordError.textContent = 'Password must be at least 8 characters, include 1 uppercase letter, 1 number, and 1 special character.';
+                isValid = false;
+            }
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const userData = { name, email, password };
+
+
+            if (isValid) {
+                alert('Logged in successfully!');
+                form.reset();
+                // Save to localStorage
+                localStorage.setItem("userData", JSON.stringify(userData));
+                window.location.href = "login.html"; // redirect to login page
+            }
+        });
+    </script>
+</body>
+
+</html>
